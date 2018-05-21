@@ -43,11 +43,11 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
     let user = firebase.auth().currentUser
     if (user) {
-      // If user signed in, proceed to route
+      // If user is signed in, proceed to route
       next()
 
     } else {
-      // no user signed in, redirect to login
+      // If no user is signed in, redirect to login
       next({
         name: 'Login'
       })

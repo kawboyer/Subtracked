@@ -56,5 +56,4 @@ export default {
   color: #F7F9FB;
   font-family: 'Noto Sans', sans-serif;
 }
-
 </style>

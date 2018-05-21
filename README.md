@@ -1,4 +1,4 @@
-# subtracked
+# SubTracked
 
 > A Vue.js project
 

@@ -20,9 +20,8 @@ export default {
 </script>
 
 <style>
- #app {
+#app {
   background-color:#F7F9FB;
   font-family: 'Noto Sans', sans-serif;
- }
-
+}
 </style>

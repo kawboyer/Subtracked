@@ -17,23 +17,32 @@
           <p v-if="message !== editingMessage" class="card-text">Category: {{ message.category }}</p>
          <div v-else>
            <p>Category:</p>
-           <textarea v-model="subCategory" class="form-control"></textarea>
+           <select class="form-control browser-default" v-model="subCategory" @blur="$v.subCategory.$touch()">
+           <option value="" disabled selected>Choose your option</option>
+            <option v-for="catOption in catOptions" v-bind:value="catOption.value">
+              {{catOption.text}}
+            </option>
+         </select>
          </div>
+
          <!-- price -->
          <p v-if="message !== editingMessage" class="card-text">Price: ${{ message.price }}</p>
          <div v-else>
            <p>Price:</p>
            <textarea v-model="subPrice" class="form-control"></textarea>
          </div>
-         <!-- <textarea v-else v-model="subPrice" class="form-control"></textarea> -->
 
          <!-- frequency -->
          <p v-if="message !== editingMessage" class="card-text">Frequency: {{ message.frequency }}</p>
          <div v-else>
            <p>Frequency:</p>
-           <textarea v-model="subFrequency" class="form-control"></textarea>
+            <select class="form-control browser-default" v-model="subFrequency" @blur="$v.subFrequency.$touch()">
+            <option value="" disabled selected>Choose your duration</option>
+            <option v-for="duration in durations" v-bind:value="duration.value">
+              {{duration.text}}
+            </option>
+         </select>
          </div>
-         <!-- <textarea v-else v-model="subFrequency" class="form-control"></textarea> -->
 
          <!-- date -->
          <p v-if="message !== editingMessage" class="card-text">Start Date: {{ message.date }}</p>
@@ -81,38 +90,53 @@
 
        <div class="form-group"  v-bind:class="{ invalid: $v.nickname.$error }">
          <label>Subscription:</label>
-          <input v-model.trim="nickname" class="form-control" @blur="$v.nickname.$touch()"/>
-          <p v-if="!$v.nickname.required">Enter a subscription</p>
+          <input v-model.trim="nickname" class="form-control" @blur="$v.nickname.$touch()" />
+          <p v-if="!$v.nickname.$dirty">Enter a subscription</p>
        </div>
-       <!-- Category -->
-         <div class="form-group" v-bind:class="{ invalid: $v.subCategory.$error }">
+      
+         <!-- <div class="form-group" v-bind:class="{ invalid: $v.subCategory.$error }">
            <label>Category:</label>
            <input v-model.trim="subCategory" class="form-control" @blur="$v.subCategory.$touch()" />
             <p v-if="!$v.subCategory.required">Select a valid category</p>
-          </div>
+          </div> -->
 
-          <!-- ATTEMPTING TO MAKE DROPDOWN FOR CHOICES -->
-         <!-- <label>Category:</label>
-         <select v-model="subCategory" @blur="$v.subCategory.$touch()" placeholder="Select a category">
-            <option v-for="catOption in catOptions" v-bind:value="catOptions.value">
-              {{catOptions.text}}
+ <!-- Category -->
+       <div class="input-field browser-default">
+                   <label>Category:</label><br><br>
+         <select class="form-control browser-default" v-model="subCategory" @blur="$v.subCategory.$touch()">
+           <option value="" disabled selected>Choose your option</option>
+            <option v-for="catOption in catOptions" v-bind:value="catOption.value">
+              {{catOption.text}}
             </option>
          </select>
-
          <p v-if="!$v.subCategory.required">You must select a valid category</p>
-       </div> -->
+       </div>
        
        <!-- price -->
        <div class="form-group" :class="{invalid: $v.subPrice.$error}">
          <label>Price:</label>
          <input v-model.number="subPrice" class="form-control" @blur="$v.subPrice.$touch()" />
-       <p v-if="!$v.subPrice.required">Enter a valid price</p>
+       <p v-if="!$v.subPrice.required">Please enter a valid price</p>
+       <p v-if="!$v.subPrice.decimal">Please enter a valid price</p>
        </div>
+
        <!-- frequency -->
-       <div class="form-group" :class="{invalid: $v.subFrequency.$error}">
+       <!-- <div class="form-group" :class="{invalid: $v.subFrequency.$error}">
          <label>Frequency:</label>
          <input v-model="subFrequency" class="form-control" @blur="$v.subFrequency.$touch()" />
          <p v-if="!$v.subFrequency.required">Enter the subscription frequency</p>
+       </div> -->
+
+        <!-- Frequency dropdown -->
+        <div class="input-field browser-default">
+          <label>Frequency:</label><br><br>
+            <select class="form-control browser-default" v-model="subFrequency" @blur="$v.subFrequency.$touch()">
+            <option value="" disabled selected>Choose your duration</option>
+            <option v-for="duration in durations" v-bind:value="duration.value">
+              {{duration.text}}
+            </option>
+         </select>
+         <p v-if="!$v.subFrequency.required">Please select a valid duration</p>
        </div>
        <!-- date -->
        <div class="form-group" :class="{invalid: $v.subStartDate.$error}">
@@ -147,7 +171,7 @@ import PieChart from "@/components/home/PieChart";
 import Total from "@/components/home/Total";
 import db from "@/firebase/init";
 import firebase from "firebase";
-import { required, numeric } from 'vuelidate/lib/validators'
+import { required, decimal } from 'vuelidate/lib/validators'
 
 export default {
   name: "Subscript",
@@ -169,6 +193,11 @@ export default {
         {text: 'Music', value: 'Music'},
         {text: 'Miscellaneous', value: 'Miscellaneous'}
       ],
+       durations: [
+        {text: 'Monthly', value: 'Monthly'},
+        {text: 'Quarterly', value: 'Quarterly'},
+        {text: 'Annually', value: 'Annually'}
+      ],
       subPrice: "",
       subFrequency: "",
       subStartDate: "",
@@ -187,7 +216,8 @@ export default {
       required
     },
     subPrice: {
-      required
+      required,
+      decimal
     },
     subFrequency: {
       required

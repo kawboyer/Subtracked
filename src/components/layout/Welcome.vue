@@ -24,9 +24,11 @@ export default {
 <style>
 .background {
   background-color: white;
-  background-size: 120%;
+  background-size: 110%;
+  background-position: 110px;
   background-repeat: no-repeat;
-  padding: 190px;
+  height: auto;
+  padding: 180px;
   opacity: 0.8;
 }
 h6 {

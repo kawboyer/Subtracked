@@ -3,8 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.css'
 import firebase from 'firebase'
 import Vuelidate from 'vuelidate'
+
+Vue.use(VueMaterial)
 Vue.use(Vuelidate)
 
 Vue.config.productionTip = false

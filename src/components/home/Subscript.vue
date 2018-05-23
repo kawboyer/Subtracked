@@ -42,7 +42,12 @@
               <p v-if="message !== editingMessage" class="card-text">Category: {{ message.category }}</p>
               <div v-else>
                 <p>Category:</p>
-                <textarea v-model="subCategory" class="form-control"></textarea>
+                <select class="form-control browser-default" v-model="subCategory" @blur="$v.subCategory.$touch()">
+                <option value="" disabled selected>Choose your option</option>
+                <option v-for="catOption in catOptions" v-bind:value="catOption.value">
+              {{catOption.text}}
+            </option>
+         </select>
               </div>
 
               <!-- Price -->
@@ -57,7 +62,12 @@
               <p v-if="message !== editingMessage" class="card-text">Frequency: {{ message.frequency }}</p>
               <div v-else>
                 <p>Frequency:</p>
-                <textarea v-model="subFrequency" class="form-control"></textarea>
+                         <select class="form-control browser-default" v-model="subFrequency" @blur="$v.subFrequency.$touch()">
+            <option value="" disabled selected>Choose your duration</option>
+            <option v-for="duration in durations" v-bind:value="duration.value">
+              {{duration.text}}
+            </option>
+         </select>
               </div>
               <!-- <textarea v-else v-model="subFrequency" class="form-control"></textarea> -->
 
@@ -179,7 +189,7 @@ import PieChart from "@/components/home/PieChart";
 import Total from "@/components/home/Total";
 import db from "@/firebase/init";
 import firebase from "firebase";
-import { required, decimal } from 'vuelidate/lib/validators'
+import { required, decimal } from "vuelidate/lib/validators";
 
 export default {
   name: "Subscript",
@@ -202,10 +212,10 @@ export default {
         { text: "Music", value: "Music" },
         { text: "Miscellaneous", value: "Miscellaneous" }
       ],
-       durations: [
-        {text: 'Monthly', value: 'Monthly'},
-        {text: 'Quarterly', value: 'Quarterly'},
-        {text: 'Annually', value: 'Annually'}
+      durations: [
+        { text: "Monthly", value: "Monthly" },
+        { text: "Quarterly", value: "Quarterly" },
+        { text: "Annually", value: "Annually" }
       ],
       subPrice: "",
       subFrequency: "",

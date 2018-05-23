@@ -56,7 +56,9 @@ export default {
               console.log(totals);
 
               // Render Chart
-
+              if (this.$data._chart) {
+                this.$data._chart.destroy();
+              }
               this.renderChart(
                 {
                   labels: Object.keys(totals),

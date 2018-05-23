@@ -1,92 +1,101 @@
 <template>
 
 <div class="container">
-    <br>
-    <PieChart></PieChart>
-    <Total></Total>
+  <br>
+  <PieChart></PieChart>
+  <Total></Total>
 
-   <div id="subscription" class="container">
-     <!-- Messages -->
-     <div v-for="(message, index) in messages" v-bind:key="index" class="card subcard">
-       <div class="card-body">
-         <!-- Subscription -->
-         <h6  class="card-subtitle mb-2 text-muted">{{ message.nickname }}</h6>
-        
-         <!-- SUBSCRIPTION CONTENT -->
-         <!-- Category -->
-          <p v-if="message !== editingMessage" class="card-text">Category: {{ message.category }}</p>
-         <div v-else>
-           <p>Category:</p>
-           <select class="form-control browser-default" v-model="subCategory" @blur="$v.subCategory.$touch()">
-           <option value="" disabled selected>Choose your option</option>
-            <option v-for="catOption in catOptions" v-bind:value="catOption.value">
-              {{catOption.text}}
-            </option>
-         </select>
-         </div>
+  <div id="subscription" class="container">
+    <!-- Messages -->
+    <md-card v-for="(message, index) in messages" v-bind:key="index" class="card subcard card-expansion">
 
-         <!-- price -->
-         <p v-if="message !== editingMessage" class="card-text">Price: ${{ message.price }}</p>
-         <div v-else>
-           <p>Price:</p>
-           <textarea v-model="subPrice" class="form-control"></textarea>
-         </div>
+        <md-card-header>
+          <!-- <div class="card-body"> -->
+          <!-- Subscription -->
+          <h6  class="card-subtitle mb-2 text-muted">{{ message.nickname }}</h6>
+        </md-card-header>
 
-         <!-- frequency -->
-         <p v-if="message !== editingMessage" class="card-text">Frequency: {{ message.frequency }}</p>
-         <div v-else>
-           <p>Frequency:</p>
-            <select class="form-control browser-default" v-model="subFrequency" @blur="$v.subFrequency.$touch()">
-            <option value="" disabled selected>Choose your duration</option>
-            <option v-for="duration in durations" v-bind:value="duration.value">
-              {{duration.text}}
-            </option>
-         </select>
-         </div>
+          <!-- actions -->
+          <md-card-actions md-alignment="space-between">
+            <div v-if="message !== editingMessage">
+              <a @click.prevent="deleteMessage(message)" href="#" class="card-link">Delete</a>
+              <a @click.prevent="editMessage(message)" href="#" class="card-link">Edit</a>
+            </div>
+            <div v-else>
+              <a @click.prevent="cancelEditing" href="#" class="card-link">Cancel</a>
+              <a @click.prevent="updateMessage" href="#" class="card-link">Update</a>
+            </div>
+            <md-card-expand-trigger>
+              <md-button class="md-icon-button">
+                <md-icon>keyboard_arrow_down</md-icon>
+              </md-button>
+            </md-card-expand-trigger>
+          </md-card-actions>
 
-         <!-- date -->
-         <p v-if="message !== editingMessage" class="card-text">Start Date: {{ message.date }}</p>
-         <div v-else>
-           <p>Start Date:</p>
-           <textarea v-model="subStartDate" class="form-control"></textarea>
-         </div>
-         <!-- <textarea v-else v-model="subStartDate" class="form-control"></textarea> -->
+        <!-- SUBSCRIPTION CONTENT -->
+        <md-card-expand>
 
-         <!-- reminder -->
-         <p v-if="message !== editingMessage" class="card-text">Reminder: {{ message.reminder }}</p>
-         <div v-else>
-           <p>Reminder:</p>
-           <textarea v-model="subReminder" class="form-control"></textarea>
-         </div>
-         <!-- <textarea v-else v-model="subReminder" class="form-control"></textarea> -->
+          <md-card-expand-content>
+            <md-card-content>
 
-         <!-- Notes -->
-         <p v-if="message !== editingMessage" class="card-text">Message: {{ message.text }}</p>
-         <div v-else>
-           <p>Message:</p>
-           <textarea v-model="messageText" class="form-control"></textarea>
-         </div>
-         <!-- <textarea v-else v-model="messageText" class="form-control"></textarea> -->
+              <!-- Category -->
+              <p v-if="message !== editingMessage" class="card-text">Category: {{ message.category }}</p>
+              <div v-else>
+                <p>Category:</p>
+                <textarea v-model="subCategory" class="form-control"></textarea>
+              </div>
 
+              <!-- Price -->
+              <p v-if="message !== editingMessage" class="card-text">Price: ${{ message.price }}</p>
+              <div v-else>
+                <p>Price:</p>
+                <textarea v-model="subPrice" class="form-control"></textarea>
+              </div>
+              <!-- <textarea v-else v-model="subPrice" class="form-control"></textarea> -->
 
-         <!-- actions -->
-         <div v-if="message !== editingMessage">
-           <a @click.prevent="deleteMessage(message)" href="#" class="card-link">Delete</a>
-           <a @click.prevent="editMessage(message)" href="#" class="card-link">Edit</a>
-         </div>
-         <div v-else>
-           <a @click.prevent="cancelEditing" href="#" class="card-link">Cancel</a>
-           <a @click.prevent="updateMessage" href="#" class="card-link">Update</a>
-         </div>
-       </div>
-     </div>
+              <!-- Frequency -->
+              <p v-if="message !== editingMessage" class="card-text">Frequency: {{ message.frequency }}</p>
+              <div v-else>
+                <p>Frequency:</p>
+                <textarea v-model="subFrequency" class="form-control"></textarea>
+              </div>
+              <!-- <textarea v-else v-model="subFrequency" class="form-control"></textarea> -->
 
+              <!-- Date -->
+              <p v-if="message !== editingMessage" class="card-text">Start Date: {{ message.date }}</p>
+              <div v-else>
+                <p>Start Date:</p>
+                <textarea v-model="subStartDate" class="form-control"></textarea>
+              </div>
+              <!-- <textarea v-else v-model="subStartDate" class="form-control"></textarea> -->
 
-     <hr>
-     <div class="card card-outer">
+              <!-- Reminder -->
+              <p v-if="message !== editingMessage" class="card-text">Reminder: {{ message.reminder }}</p>
+              <div v-else>
+                <p>Reminder:</p>
+                <textarea v-model="subReminder" class="form-control"></textarea>
+              </div>
+              <!-- <textarea v-else v-model="subReminder" class="form-control"></textarea> -->
 
-     <!-- New Message -->
-     <form v-if="!editingMessage" @submit.prevent="storeMessage">
+              <!-- Notes -->
+              <p v-if="message !== editingMessage" class="card-text">Message: {{ message.text }}</p>
+              <div v-else>
+                <p>Message:</p>
+                <textarea v-model="messageText" class="form-control"></textarea>
+              </div>
+              <!-- <textarea v-else v-model="messageText" class="form-control"></textarea> -->
+
+            </md-card-content>
+          </md-card-expand-content>
+        </md-card-expand>
+      </md-card>
+    </div>
+
+  <hr>
+  <div class="card card-outer">
+
+    <!-- New Message -->
+    <form v-if="!editingMessage" @submit.prevent="storeMessage">
 
        <div class="form-group"  v-bind:class="{ invalid: $v.nickname.$error }">
          <label>Subscription:</label>
@@ -157,16 +166,15 @@
 
         <br>
        <button type="submit" :disabled="$v.$invalid" class="btn btn-primary btn-send">Add Subscription</button>
-     </form>
+    </form>
    </div>
- </div>
-  <br>
-  <br>
 </div>
 
 </template>
 
 <script>
+import "vue-material/dist/vue-material.min.css";
+import { MdCard } from "vue-material/dist/components";
 import PieChart from "@/components/home/PieChart";
 import Total from "@/components/home/Total";
 import db from "@/firebase/init";
@@ -175,6 +183,7 @@ import { required, decimal } from 'vuelidate/lib/validators'
 
 export default {
   name: "Subscript",
+  name: "CardExpansion",
   components: {
     PieChart,
     Total
@@ -186,12 +195,12 @@ export default {
       nickname: "",
       subCategory: "",
       catOptions: [
-        {text: 'Food', value: 'Food'},
-        {text: 'Entertainment', value: 'Entertainment'},
-        {text: 'Games', value: 'Games'},
-        {text: 'Books', value: 'Shopping'},
-        {text: 'Music', value: 'Music'},
-        {text: 'Miscellaneous', value: 'Miscellaneous'}
+        { text: "Food", value: "Food" },
+        { text: "Entertainment", value: "Entertainment" },
+        { text: "Games", value: "Games" },
+        { text: "Books", value: "Shopping" },
+        { text: "Music", value: "Music" },
+        { text: "Miscellaneous", value: "Miscellaneous" }
       ],
        durations: [
         {text: 'Monthly', value: 'Monthly'},
@@ -208,8 +217,7 @@ export default {
   },
 
   validations: {
-
-    nickname : {
+    nickname: {
       required
     },
     subCategory: {
@@ -234,7 +242,6 @@ export default {
     // }
   },
 
-
   created() {
     let ref = db.collection("users");
     ref
@@ -257,7 +264,6 @@ export default {
       .where("to", "==", this.$route.params.id)
       .onSnapshot(snapshot => {
         snapshot.docChanges.forEach(change => {
-
           if (change.type == "added") {
             this.messages.push({
               id: change.doc.id,
@@ -269,12 +275,10 @@ export default {
               date: change.doc.data().date,
               reminder: change.doc.data().reminder
             });
-
           } else if (change.type == "removed") {
             const index = this.messages.indexOf(change.doc.data().id);
             this.messages.splice(index, 1);
             console.log(index);
-
           } else if (change.type == "modified") {
             console.log("FINDING");
             const updatedMessage = this.messages.find(
@@ -320,7 +324,6 @@ export default {
         .doc(message.id)
         .delete()
         .then(function() {
-       
           console.log("Document successfully deleted!");
         })
         .catch(function(error) {
@@ -367,40 +370,44 @@ export default {
 </script>
 
 <style>
-
 .btn-send {
   background-color: #687864;
+}
+.card-expansion {
+  height: 480px;
+}
+.card-link {
+  padding: 10px;
+}
+.card-outer {
+  padding: 10px;
+}
+.card-subtitle {
+  font-size: 25px;
+  font-family: "Noto Sans", sans-serif;
+}
+.card-text {
+  margin: 0 0 0 10;
 }
 .form-group p {
   color: red;
 }
+.input.invalid input {
+  border: 1px solid red;
+  background-color: rgb(214, 72, 72);
+}
 .input.invalid label {
   color: red;
 }
-.input.invalid input {
-  border: 1px solid red;
-  background-color: rgb(214, 72, 72); 
-}
-.card-outer {
-
-  padding: 10px;
+.md-card {
+  width: 320px;
+  margin: 4px;
+  display: inline-block;
+  vertical-align: top;
 }
 .subcard {
-  color: #161D6E;
+  color: #161d6e;
   padding: 10px;
   margin: 15px;
-}
-
-.card-subtitle {
-  font-size: 25px;
-  font-family: 'Noto Sans', sans-serif;
-}
-
-.card-text {
-  margin: 0 0 0 10;
-}
-
-.card-link {
-  padding: 10px;
 }
 </style>

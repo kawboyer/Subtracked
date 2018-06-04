@@ -410,10 +410,15 @@ export default {
   color: red;
 }
 .md-card {
-  width: 320px;
-  margin: 4px;
   display: inline-block;
+  height: 150px;
+  margin: 4px;
   vertical-align: top;
+  width: 320px;
+}
+.md-expand-active {
+  height: 400px;
+  scroll-behavior: smooth;
 }
 .subcard {
   color: #161d6e;

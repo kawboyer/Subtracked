@@ -1,5 +1,5 @@
 <template>
-  <div id="canvas-holder" style="width:40%">
+  <div id="canvas-holder" style="width:10%">
 		<canvas id="chart-area"></canvas>
 	
     <button id="randomizeData">Randomize Data</button>
@@ -17,7 +17,10 @@ export default {
   name: 'app',
   components: {
     PieExample
-  }
+  },
+  // data: {
+  //   width: 200
+  // }
 }
 </script>
 

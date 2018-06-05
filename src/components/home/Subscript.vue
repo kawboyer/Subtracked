@@ -6,8 +6,6 @@
   <PieChart></PieChart>
   <Total></Total>
 
-  
-
   <div id="subscription" class="container">
     <!-- Messages -->
     <md-card v-for="(message, index) in messages" v-bind:key="index" class="card subcard card-expansion">
@@ -118,21 +116,16 @@
           <!-- New Message -->
           <form v-if="!editingMessage" @submit.prevent="storeMessage">
 
-            <div class="form-group"  v-bind:class="{ invalid: $v.nickname.$error }">
-              <label>Subscription:</label>
-                <input v-model.trim="nickname" class="form-control" @blur="$v.nickname.$touch()" placeholder="Enter a Subscription"/>
+            <div v-bind:class="{ invalid: $v.nickname.$error }">
+              <md-field>
+                <label for="subscription-name">Subscription</label>
+                <md-input v-model.trim="nickname" name="subscription-name" @blur="$v.nickname.$touch()" />
                 <p v-if="!$v.nickname.$dirty"></p>
+              </md-field>
             </div>
-            
-              <!-- <div class="form-group" v-bind:class="{ invalid: $v.subCategory.$error }">
-                <label>Category:</label>
-                <input v-model.trim="subCategory" class="form-control" @blur="$v.subCategory.$touch()" />
-                  <p v-if="!$v.subCategory.required">Select a valid category</p>
-                </div> -->
 
             <!-- Category -->
             <div class="input-field browser-default">
-                        <label>Category:</label><br><br>
               <select class="form-control browser-default" v-model="subCategory" @blur="$v.subCategory.$touch()">
                 <option value="" disabled selected>Choose a category</option>
                   <option v-for="catOption in catOptions" v-bind:value="catOption.value">
@@ -142,56 +135,57 @@
               <p v-if="!$v.subCategory.required"></p>
             </div>
             
-            <!-- price -->
-            <div class="form-group" :class="{invalid: $v.subPrice.$error}">
-              <label>Price:</label>
-              <input v-model.number="subPrice" class="form-control" @blur="$v.subPrice.$touch()" placeholder="Enter a price" />
-            <p v-if="!$v.subPrice.required"></p>
-            <p v-if="!$v.subPrice.decimal"></p>
+            <!-- Price -->
+            <div :class="{invalid: $v.subPrice.$error}">
+              <md-field>
+                <label for="price">Price</label>
+                <md-input v-model.number="subPrice" name="price" @blur="$v.subPrice.$touch()" />
+                <p v-if="!$v.subPrice.required"></p>
+                <p v-if="!$v.subPrice.decimal"></p>
+              </md-field>
             </div>
 
-            <!-- frequency -->
-            <!-- <div class="form-group" :class="{invalid: $v.subFrequency.$error}">
-              <label>Frequency:</label>
-              <input v-model="subFrequency" class="form-control" @blur="$v.subFrequency.$touch()" />
-              <p v-if="!$v.subFrequency.required">Enter the subscription frequency</p>
-            </div> -->
-
-              <!-- Frequency Dropdown -->
-              <div class="input-field browser-default">
-                <label>Frequency:</label><br><br>
-                  <select class="form-control browser-default" v-model="subFrequency" @blur="$v.subFrequency.$touch()">
-                  <option value="" disabled selected>Choose the duration</option>
-                  <option v-for="duration in durations" v-bind:value="duration.value">
-                    {{duration.text}}
-                  </option>
+            <!-- Frequency Dropdown -->
+            <div class="input-field browser-default">
+                <select class="form-control browser-default" v-model="subFrequency" @blur="$v.subFrequency.$touch()">
+                <option value="" disabled selected>Choose Frequency</option>
+                <option v-for="duration in durations" v-bind:value="duration.value">
+                  {{duration.text}}
+                </option>
               </select>
               <p v-if="!$v.subFrequency.required"></p>
             </div>
 
             <!-- Date -->
-            <div class="form-group" :class="{invalid: $v.subStartDate.$error}">
-              <label>Start Date:</label>
-              <input v-model="subStartDate" class="form-control" @blur="$v.subStartDate.$touch()" placeholder="Enter a start date"/>
+            <div :class="{invalid: $v.subStartDate.$error}">
+              <md-field>
+                <label for="start-date">Start Date</label>
+                <md-input v-model="subStartDate" name="start-date" @blur="$v.subStartDate.$touch()" />
                 <p v-if="!$v.subStartDate.required"></p>
+              </md-field>
+
             </div>
 
             <!-- Reminder -->
-            <div class="form-group" > 
-              <label>Reminder:</label>
-              <input v-model="subReminder" class="form-control"/>
+            <div> 
+              <md-field>
+                <label for="reminder">Reminder</label>
+                <md-input v-model="subReminder" name="reminder"/>
+              </md-field>
             </div>
 
             <!-- Notes -->
             <div class="form-group">
-              <label>Message:</label>
-              <textarea v-model="messageText" class="form-control"></textarea>
+              <md-field>
+                <label for="message">Message</label>
+                <md-textarea v-model="messageText" class="form-control"></md-textarea>
+              </md-field>
             </div>
 
             <br>
 
             <md-dialog-actions>
-              <md-button type="submit" :disabled="$v.$invalid" class="btn btn-primary btn-send">Add Subscription</md-button>
+              <md-button type="submit" :disabled="$v.$invalid" class="btn btn-primary btn-send" @click="showDialog = false">Add Subscription</md-button>
               <md-button class="md-primary" @click="showDialog = false">Close</md-button>
             </md-dialog-actions>
 
@@ -210,6 +204,9 @@
 import "vue-material/dist/vue-material.min.css";
 import { MdCard } from "vue-material/dist/components";
 import { MdDialog } from "vue-material/dist/components";
+import { MdField } from "vue-material/dist/components";
+import { MdInput } from "vue-material/dist/components";
+import { MdTextfield } from "vue-material/dist/components";
 import PieChart from "@/components/home/PieChart";
 import Total from "@/components/home/Total";
 import db from "@/firebase/init";
@@ -226,7 +223,7 @@ export default {
   },
   data() {
     return {
-      showDialog: true,
+      showDialog: false,
       messages: [],
       messageText: "",
       nickname: "",
@@ -419,9 +416,6 @@ export default {
 .card-link {
   padding: 10px;
 }
-/* .card-outer {
-  padding: 10px;
-} */
 .card-subtitle {
   font-size: 25px;
   font-family: "Noto Sans", sans-serif;
@@ -436,9 +430,9 @@ export default {
   border: 1px solid red;
   background-color: rgb(214, 72, 72);
 }
-.input.invalid label {
+/* .input.invalid label {
   color: red;
-}
+} */
 .md-card {
   display: inline-block;
   height: 140px;

@@ -66,13 +66,11 @@ export default {
                     {
                       backgroundColor: [
                         "#31708E",
-                        "#5085A5",
-                        "#8FC1E3",
-                        "#687864",
-                        "#31708E",
-                        "#5085A5",
-                        "#8FC1E3",
-                        "#687864"
+                        "#01579b",
+                        "#0288d1",
+                        "#42a5f5",
+                        "#90caf9",
+                        "#b3e5fc",
                       ],
                       data: Object.values(totals)
                     }

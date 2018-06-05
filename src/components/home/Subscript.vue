@@ -16,31 +16,31 @@
         <h6  class="card-subtitle mb-2 text-muted">{{ message.nickname }}</h6>
       </md-card-header>
 
-      <!-- actions -->
-      <md-card-actions md-alignment="space-between">
-        <md-card-expand-trigger>
-          <md-button class="md-icon-button">
-            <md-icon>keyboard_arrow_down</md-icon>
-          </md-button>
-        </md-card-expand-trigger>
-      </md-card-actions>
+        <!-- actions -->
+        <md-card-actions md-alignment="space-between">
+          <md-card-expand-trigger>
+            <md-button class="md-icon-button">
+              <md-icon>keyboard_arrow_down</md-icon>
+            </md-button>
+          </md-card-expand-trigger>
+        </md-card-actions>
 
       <!-- SUBSCRIPTION CONTENT -->
       <md-card-expand>
-        <md-card-actions md-alignment="space-between">
-          <div v-if="message !== editingMessage">
-            <a @click.prevent="deleteMessage(message)" href="#" class="card-link">Delete</a>
-            <a @click.prevent="editMessage(message)" href="#" class="card-link">Edit</a>
-          </div>
-          <div v-else>
-            <a @click.prevent="cancelEditing" href="#" class="card-link">Cancel</a>
-            <a @click.prevent="updateMessage" href="#" class="card-link">Update</a>
-          </div>
-        </md-card-actions>
-
         <md-card-expand-content>
-          <md-card-content>
 
+          <md-card-actions md-alignment="space-between">
+            <div v-if="message !== editingMessage">
+              <a @click.prevent="deleteMessage(message)" href="#" class="card-link">Delete</a>
+              <a @click.prevent="editMessage(message)" href="#" class="card-link">Edit</a>
+            </div>
+            <div v-else>
+              <a @click.prevent="cancelEditing" href="#" class="card-link">Cancel</a>
+              <a @click.prevent="updateMessage" href="#" class="card-link">Update</a>
+            </div>
+          </md-card-actions>
+
+          <md-card-content>
             <!-- Category -->
             <p v-if="message !== editingMessage" class="card-text">Category: {{ message.category }}</p>
             <div v-else>

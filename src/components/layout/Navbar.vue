@@ -56,4 +56,24 @@ export default {
   color: #F7F9FB;
   font-family: 'Noto Sans', sans-serif;
 }
+.navbar {
+  border-bottom: 8px grey;
+
+}
+h6 {
+  font-size: 26px;
+  background: #F7F9FB;
+  opacity: 0.5;
+}
+li, a {
+  color: white;
+}
+
+.brand-logo  {
+  color: white;
+}
+
+.router-link-active {
+  color: white;
+}
 </style>

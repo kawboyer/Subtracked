@@ -71,6 +71,7 @@ export default {
                         "#42a5f5",
                         "#90caf9",
                         "#b3e5fc",
+
                         // "#8FC1E3",
                         // "#687864"
                         // "#d50000",
@@ -79,6 +80,7 @@ export default {
                         // "#00c853",
                         // "#2962ff",
                         // "#aa00ff"
+
                       ],
                       data: Object.values(totals)
                     }

@@ -13,7 +13,7 @@
       <md-card-header>
         <!-- <div class="card-body"> -->
         <!-- Subscription -->
-        <h6  class="card-subtitle mb-2 text-muted">{{ message.nickname }}</h6>
+        <h6  class="card-subtitle mb-2">{{ message.nickname }}</h6>
       </md-card-header>
 
         <!-- actions -->

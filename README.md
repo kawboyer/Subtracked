@@ -1,5 +1,5 @@
 # SubTracked
-https://subtracked.herokuapp.com/
+https://subtrack-fb-db.firebaseapp.com/
 
 ## Track and manage online subscriptions to subtract cost from monthly expenses.
 ### Technologies used: Javascript, Node, Express, Firebase, Chart.js, Vue, Vuelidate, Vuex, Materialize. 
